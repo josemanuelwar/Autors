@@ -21,7 +21,7 @@ namespace ApiResFull.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Autor>>> Get(){
             
-            return await this.context.Autores.ToListAsync();
+            return await this.context.Autores.Include(x => x.libros).ToListAsync();
         }
 
         [HttpPost]

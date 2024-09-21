@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using ApiResFull.db;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,8 @@ namespace ApiResFull
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
                 options.HttpsPort = 5218;
             });
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(x=>
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(this.configuration.GetConnectionString("defaultConnection")));
             services.AddEndpointsApiExplorer();
