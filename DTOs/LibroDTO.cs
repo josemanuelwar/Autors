@@ -2,14 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiResFull.validation;
 
-namespace ApiResFull.Entidades
+namespace ApiResFull.DTOs
 {
-    public class Autor
+    public class LibroDTO
     {
         public int id { get; set; }
-        public string nombres { get; set; }
-
+        public string titulo { get; set; }
     }
 }

@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiResFull.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240917230849_libros")]
-    partial class libros
+    [Migration("20241014202206_cometarios")]
+    partial class cometarios
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,28 @@ namespace ApiResFull.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Autores");
+                    b.ToTable("autores");
+                });
+
+            modelBuilder.Entity("ApiResFull.Entidades.Comentario", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("contenido")
+                        .HasColumnType("text");
+
+                    b.Property<int>("libroId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("libroId");
+
+                    b.ToTable("comentarios");
                 });
 
             modelBuilder.Entity("ApiResFull.Entidades.Libro", b =>
@@ -48,33 +69,28 @@ namespace ApiResFull.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("autorId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("titulo")
                         .HasColumnType("text");
 
                     b.HasKey("id");
 
-                    b.HasIndex("autorId");
-
                     b.ToTable("libros");
+                });
+
+            modelBuilder.Entity("ApiResFull.Entidades.Comentario", b =>
+                {
+                    b.HasOne("ApiResFull.Entidades.Libro", "libro")
+                        .WithMany("comentarios")
+                        .HasForeignKey("libroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("libro");
                 });
 
             modelBuilder.Entity("ApiResFull.Entidades.Libro", b =>
                 {
-                    b.HasOne("ApiResFull.Entidades.Autor", "autor")
-                        .WithMany("libros")
-                        .HasForeignKey("autorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("autor");
-                });
-
-            modelBuilder.Entity("ApiResFull.Entidades.Autor", b =>
-                {
-                    b.Navigation("libros");
+                    b.Navigation("comentarios");
                 });
 #pragma warning restore 612, 618
         }

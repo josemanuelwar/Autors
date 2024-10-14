@@ -21,12 +21,16 @@ namespace ApiResFull
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
                 options.HttpsPort = 5218;
             });
+            
             services.AddControllers().AddJsonOptions(x=>
             x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(this.configuration.GetConnectionString("defaultConnection")));
+            
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env){

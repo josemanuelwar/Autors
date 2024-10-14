@@ -13,7 +13,8 @@ namespace ApiResFull.db
 
         }
 
-        public DbSet<Autor> Autores { get; set; }
+        public DbSet<Autor> autores { get; set; }
         public DbSet<Libro> libros{ get; set; }
+        public DbSet<Comentario> comentarios{ get; set; }
     }
 }

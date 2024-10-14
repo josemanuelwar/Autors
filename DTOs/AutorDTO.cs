@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApiResFull.validation;
 
-namespace ApiResFull.Entidades
+namespace ApiResFull.DTOs
 {
-    public class Autor
+    public class AutorDTO
     {
         public int id { get; set; }
         public string nombres { get; set; }
-
+        
     }
 }

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiResFull.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240917220245_inicial")]
+    [Migration("20241006002744_inicial")]
     partial class inicial
     {
         /// <inheritdoc />
@@ -33,11 +33,30 @@ namespace ApiResFull.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<string>("nombres")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
 
                     b.HasKey("id");
 
-                    b.ToTable("Autores");
+                    b.ToTable("autores");
+                });
+
+            modelBuilder.Entity("ApiResFull.Entidades.Libro", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("titulo")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("libros");
                 });
 #pragma warning restore 612, 618
         }

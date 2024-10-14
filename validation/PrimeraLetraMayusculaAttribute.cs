@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+
+namespace ApiResFull.validation
+{
+    public class PrimeraLetraMayusculaAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value == null ||  string.IsNullOrEmpty (value.ToString())){
+                return ValidationResult.Success;
+            }
+             
+            var primeraLetra = value.ToString()[0].ToString();
+            if (primeraLetra != primeraLetra.ToUpper()){
+                return new ValidationResult("La primera letra deve ser mayuscula");
+
+            }
+            return ValidationResult.Success;
+        }
+    }
+}
