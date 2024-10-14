@@ -26,11 +26,16 @@ namespace ApiResFull.Controllers
 
        [HttpGet("{id:int}")]
         public async Task<ActionResult<LibroDTO>> GetLibros(int id){
-            var libro= await this.context.libros.FirstOrDefaultAsync(x=> x.id==id);
+            var libro= await this.context.libros
+            .Include(com => com.comentarios)
+            .FirstOrDefaultAsync(x=> x.id==id);
+
             if(libro == null){
                 return NotFound("No se encontro el libro");
             }
-            return this.maper.Map<LibroDTO>(libro);
+
+            var libros = this.maper.Map<LibroDTO>(libro);
+            return libros;
         }
 
         [HttpPost]

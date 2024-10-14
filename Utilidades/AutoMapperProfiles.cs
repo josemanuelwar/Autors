@@ -15,6 +15,8 @@ namespace ApiResFull.Utilidades
             CreateMap<Autor,AutorDTO>().ReverseMap();
             CreateMap<LibroCreationDTO,Libro>();
             CreateMap<Libro,LibroDTO>().ReverseMap();
+            CreateMap<CometarioCreationDTO,Comentario>();
+            CreateMap<Comentario,CometariosDTO>().ReverseMap();
         }
     }
 }

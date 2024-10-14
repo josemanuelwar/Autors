@@ -11,7 +11,7 @@ namespace ApiResFull.Entidades
 
         public string titulo { get; set; }
 
-        public List<Comentario>comentarios { get; set; }
+        public List<Comentario> comentarios { get; set; }
         
     }
 }

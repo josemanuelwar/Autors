@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace ApiResFull.DTOs
 {
-    public class LibroDTO
+    public class CometariosDTO
     {
         public int id { get; set; }
-        public string titulo { get; set; }
+        public string contenido { get; set; }
 
-        public List<CometariosDTO> comentarios{ get; set; }
     }
 }
