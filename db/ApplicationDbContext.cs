@@ -13,8 +13,15 @@ namespace ApiResFull.db
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder){
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<AutorLibro>().HasKey(x=> new {x.LibroId,x.AutorId} );
+        }
+
         public DbSet<Autor> autores { get; set; }
         public DbSet<Libro> libros{ get; set; }
         public DbSet<Comentario> comentarios{ get; set; }
+
+        public DbSet<AutorLibro> autorLibro { get; set; }
     }
 }

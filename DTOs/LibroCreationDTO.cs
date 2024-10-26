@@ -14,5 +14,6 @@ namespace ApiResFull.DTOs
         [StringLength(maximumLength:200  ,ErrorMessage = "El campo {0} no debe tener mas de 4 carateres")]
         [PrimeraLetraMayuscula]
         public string titulo  { get; set; }
+        public List<int> AutoresIds { get; set; }
     }
 }

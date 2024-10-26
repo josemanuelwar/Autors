@@ -41,6 +41,18 @@ namespace ApiResFull.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(LibroCreationDTO libroCreationDTO){
 
+            if(libroCreationDTO.AutoresIds == null){
+                return BadRequest("No se puede crear un libro si autores");
+            }
+
+            var autoresId = await this.context.autores
+                            .Where(x => libroCreationDTO.AutoresIds.Contains(x.id))
+                            .Select(x=>x.id).ToListAsync();
+
+            if(libroCreationDTO.AutoresIds.Count != autoresId.Count){
+                return BadRequest("No existe uno de los autores enviados");
+            }
+
             var libro = this.maper.Map<Libro>(libroCreationDTO);
             this.context.Add(libro);
             await this.context.SaveChangesAsync();

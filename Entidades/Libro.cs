@@ -13,5 +13,6 @@ namespace ApiResFull.Entidades
 
         public List<Comentario> comentarios { get; set; }
         
+        public List<AutorLibro> autoresLibros { get; set; }
     }
 }

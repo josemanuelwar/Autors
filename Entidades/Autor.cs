@@ -11,5 +11,7 @@ namespace ApiResFull.Entidades
         public int id { get; set; }
         public string nombres { get; set; }
 
+        public List<AutorLibro> autoresLibros { get; set; }
+
     }
 }
