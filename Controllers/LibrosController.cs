@@ -28,6 +28,8 @@ namespace ApiResFull.Controllers
         public async Task<ActionResult<LibroDTO>> GetLibros(int id){
             var libro= await this.context.libros
             .Include(com => com.comentarios)
+            .Include(libroDB =>libroDB.autoresLibros)
+            .ThenInclude(autoresLibroDB=>autoresLibroDB.autor)
             .FirstOrDefaultAsync(x=> x.id==id);
 
             if(libro == null){
@@ -54,6 +56,12 @@ namespace ApiResFull.Controllers
             }
 
             var libro = this.maper.Map<Libro>(libroCreationDTO);
+
+            if(libro.autoresLibros != null){
+                for(int i = 0; i < libro.autoresLibros.Count; i++){
+                    libro.autoresLibros[i].orden=i;
+                }
+            }
             this.context.Add(libro);
             await this.context.SaveChangesAsync();
             return Ok(libro);
