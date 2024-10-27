@@ -33,13 +33,17 @@ namespace ApiResFull.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<AutorDTO>> GetById([FromRoute] int id){
-            var autor=  await this.context.autores.FirstOrDefaultAsync(x => x.id == id);
+        public async Task<ActionResult<AutorDTOConLibros>> GetById([FromRoute] int id){
+            var autor=  await this.context.autores
+            .Include(autorDB => autorDB.autoresLibros)
+            .ThenInclude(libroDB=>libroDB.libro)
+            .FirstOrDefaultAsync(x => x.id == id);
+
             if(autor==null){
                 return NotFound("Usuario no encontrado");
             }
 
-            return this.mapper.Map<AutorDTO>(autor);
+            return this.mapper.Map<AutorDTOConLibros>(autor);
         }
         
         [HttpGet("{nombre}")]

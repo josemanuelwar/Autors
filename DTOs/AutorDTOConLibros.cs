@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ApiResFull.DTOs
 {
-    public class AutorDTO
+    public class AutorDTOConLibros : AutorDTO
     {
-        public int id { get; set; }
-        public string nombres { get; set; }
+        public List<LibroDTO> libros { get; set; }
+        
     }
 }

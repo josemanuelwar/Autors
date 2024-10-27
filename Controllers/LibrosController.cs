@@ -25,9 +25,9 @@ namespace ApiResFull.Controllers
         }
 
        [HttpGet("{id:int}")]
-        public async Task<ActionResult<LibroDTO>> GetLibros(int id){
+        public async Task<ActionResult<LibroDTOConAutores>> GetLibros(int id){
             var libro= await this.context.libros
-            .Include(com => com.comentarios)
+            //.Include(com => com.comentarios)
             .Include(libroDB =>libroDB.autoresLibros)
             .ThenInclude(autoresLibroDB=>autoresLibroDB.autor)
             .FirstOrDefaultAsync(x=> x.id==id);
@@ -35,9 +35,22 @@ namespace ApiResFull.Controllers
             if(libro == null){
                 return NotFound("No se encontro el libro");
             }
+            libro.autoresLibros=libro.autoresLibros.OrderBy(x => x.orden).ToList();
 
-            var libros = this.maper.Map<LibroDTO>(libro);
+            var libros = this.maper.Map<LibroDTOConAutores>(libro);
             return libros;
+        }
+
+        [HttpGet("comentario/{id:int}")]
+
+        public async Task<ActionResult<LibroDTOComentarios>> GetLibrosComentarios(int id){
+            var libro= await this.context.libros.Include(libroDB =>libroDB.comentarios).FirstOrDefaultAsync(x=>x.id==id);
+
+            if(libro == null) return NotFound("No se encontro un libro");
+
+            var LibroComentario=this.maper.Map<LibroDTOComentarios>(libro);
+
+            return LibroComentario;
         }
 
         [HttpPost]

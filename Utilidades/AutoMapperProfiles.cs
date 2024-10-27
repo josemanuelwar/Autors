@@ -6,17 +6,25 @@ namespace ApiResFull.Utilidades
 {
     public class AutoMapperProfiles : Profile
     {
+        
         public AutoMapperProfiles(){
             
             CreateMap<AutorCreationDTO,Autor>();
             CreateMap<Autor,AutorDTO>().ReverseMap();
+
+            CreateMap<Autor,AutorDTOConLibros>()
+            .ForMember(autorDTO => autorDTO.libros, opciones => opciones.MapFrom(MapAutorDTOLibro));
+            
             
             CreateMap<LibroCreationDTO,Libro>()
             .ForMember(libro=>libro.autoresLibros, opciones => opciones.MapFrom(MapAutoresLibros));
             
-            CreateMap<Libro,LibroDTO>()
-            .ForMember(libroDTO=>libroDTO.autores, opciones=>opciones.MapFrom(MapLibrosDTOAutores))
-            .ReverseMap();
+            CreateMap<Libro,LibroDTO>().ReverseMap();
+            CreateMap<Libro,LibroDTOConAutores>()
+            .ForMember(libroDTO=>libroDTO.autores, opciones=>opciones.MapFrom(MapLibrosDTOAutores));
+
+            CreateMap<Libro,LibroDTOComentarios>();
+            
 
            
             CreateMap<CometarioCreationDTO,Comentario>();
@@ -52,6 +60,23 @@ namespace ApiResFull.Utilidades
                 );
             }
             return resultado;
+        }
+
+        private List<LibroDTO> MapAutorDTOLibro(Autor autor,AutorDTO autorDTO){
+            var resultado = new List<LibroDTO>();
+
+            if(autor.autoresLibros == null) return resultado;
+
+            foreach (var libro in autor.autoresLibros)
+            {
+                resultado.Add(new LibroDTO(){
+                    id=libro.LibroId,
+                    titulo=libro.libro.titulo
+                });
+                
+            }
+            return resultado;
+
         }
     }
 }
