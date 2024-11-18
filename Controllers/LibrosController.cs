@@ -24,7 +24,7 @@ namespace ApiResFull.Controllers
 
         }
 
-       [HttpGet("{id:int}")]
+       [HttpGet("{id:int}", Name ="ObtenerLibro")]
         public async Task<ActionResult<LibroDTOConAutores>> GetLibros(int id){
             var libro= await this.context.libros
             //.Include(com => com.comentarios)
@@ -77,7 +77,10 @@ namespace ApiResFull.Controllers
             }
             this.context.Add(libro);
             await this.context.SaveChangesAsync();
-            return Ok(libro);
+
+            var libtoDTO=this.maper.Map<LibroDTO>(libro);
+            
+            return CreatedAtRoute("ObtenerLibro", new {id=libro.id}, libtoDTO);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace ApiResFull.Controllers
             return this.mapper.Map<List<AutorDTO>>(autores);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "obtenerAutor")]
         public async Task<ActionResult<AutorDTOConLibros>> GetById([FromRoute] int id){
             var autor=  await this.context.autores
             .Include(autorDB => autorDB.autoresLibros)
@@ -64,7 +64,8 @@ namespace ApiResFull.Controllers
             var autor = this.mapper.Map<Autor>(autorCreationDTO);
             this.context.Add(autor);
             await this.context.SaveChangesAsync();
-            return Ok(autor);
+            var AutorDTO = this.mapper.Map<AutorDTO>(autor);
+            return CreatedAtRoute("obtenerAutor",new {id = autor.id},AutorDTO);
         }
 
         [HttpPut("{id:int}")]
